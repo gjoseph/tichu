@@ -17,18 +17,19 @@ import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardComparators;
 import net.incongru.tichu.model.card.CardSuit;
 import net.incongru.tichu.model.card.CardValue;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  *
  */
 public class Straight extends AbstractPlay<Straight> {
 
-    private final CardValue phoenixSubstitute;
+    private final @Nullable CardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
     private Straight(
         Set<Card> cards,
-        CardValue phoenixSubstitute,
+        @Nullable CardValue phoenixSubstitute,
         boolean bombyBomb
     ) {
         super(cards);
@@ -52,7 +53,7 @@ public class Straight extends AbstractPlay<Straight> {
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
         final Collection<CardValue> values = Lists.newArrayList(
-            Collections2.transform(getCards(), card -> card.val())
+            Collections2.transform(getCards(), Card::val)
         );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
@@ -98,7 +99,7 @@ public class Straight extends AbstractPlay<Straight> {
     public static class Factory implements PlayFactory<Straight> {
 
         @Override
-        public Straight is(Set<Card> cards) {
+        public @Nullable Straight is(Set<Card> cards) {
             if (cards.size() < 5) {
                 return null;
             }
