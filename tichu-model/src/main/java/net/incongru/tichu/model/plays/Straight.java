@@ -72,23 +72,19 @@ public class Straight extends AbstractPlay<Straight> {
 
     @Override
     public String describe() {
-        final StringBuilder s = new StringBuilder();
-        s
-            .append(name())
-            .append(" of ")
-            .append(size())
-            .append(", from ")
-            .append(getLowerBound().niceName())
-            .append(" to ")
-            .append(getHigherBound().niceName());
-        if (phoenixSubstitute != null) {
-            s
-                .append(" with a ")
-                .append(Phoenix.niceName())
-                .append(" substituting for the ")
-                .append(phoenixSubstitute.niceName());
-        }
-        return s.toString();
+        final String optSuffix = phoenixSubstitute != null
+            ? " with a %s substituting for the %s".formatted(
+                    Phoenix.niceName(),
+                    phoenixSubstitute.niceName()
+                )
+            : "";
+        return "%s of %d, from %s to %s%s".formatted(
+                name(),
+                size(),
+                getLowerBound().niceName(),
+                getHigherBound().niceName(),
+                optSuffix
+            );
     }
 
     @Override
